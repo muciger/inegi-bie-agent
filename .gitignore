@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Entornos virtuales
+.env
+.venv
+venv/
+env/
+
+# Token y credenciales — nunca en git
+.env.local
+secrets.py
+*token*
+*.key
+
+# Scraper: archivos de estado y salida
+*.ckpt
+indicadores_*.json
+coyuntura.json
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo

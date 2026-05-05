@@ -1,0 +1,240 @@
+{
+  "IMCPMI": {
+    "nombre": "Indicador mensual del consumo privado en el mercado interior, base 2018 , Variación anual, Total",
+    "frecuencia": "Mensual",
+    "id_original": "740946",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "FORBRU": {
+    "nombre": "Formación bruta de capital fijo total (Inversión fija bruta)",
+    "frecuencia": "Mensual",
+    "id_original": "741020",
+    "id_variacion": "741040",
+    "id_desestacionalizado": "741100"
+  },
+  "INDADE": {
+    "nombre": "Indicador adelantado. Diferencia en puntos respecto al mes anterior",
+    "frecuencia": "Mensual",
+    "id_original": "214308",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "INPCVI": {
+    "nombre": "Índice de precios al consumidor (INPC). Inflación quincenal, interanual",
+    "frecuencia": "Quincenal",
+    "id_original": "910438",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "INPCVSI": {
+    "nombre": "Índice de precios al consumidor (INPC). Inflación quincenal subyacente interanual",
+    "frecuencia": "Quincenal",
+    "id_original": "910439",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "INPCV": {
+    "nombre": "Índice de precios al consumidor (INPC). Inflación quincenal",
+    "frecuencia": "Quincenal",
+    "id_original": "910427",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "INPCVS": {
+    "nombre": "Índice de precios al consumidor (INPC). Inflación quincenal subyacente",
+    "frecuencia": "Quincenal",
+    "id_original": "910428",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "INPCA": {
+    "nombre": "Indice Nacional de Precios al Consumidor. Inflación anual",
+    "frecuencia": "Mensual",
+    "id_original": "910406",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "INPCAC": {
+    "nombre": "Indice Nacional de Precios al Consumidor. Inflación acumulada en el año",
+    "frecuencia": "Mensual",
+    "id_original": "910413",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "INPCACS": {
+    "nombre": "Índice de precios al consumidor (INPC). Inflación acumulada subyacente",
+    "frecuencia": "Mensual",
+    "id_original": "910414",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "INPCAS": {
+    "nombre": "Índice de precios al consumidor (INPC). Inflación Anual subyacente",
+    "frecuencia": "Mensual",
+    "id_original": "910407",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "INPCM": {
+    "nombre": "Índice de precios al consumidor (INPC). Inflación mensual",
+    "frecuencia": "Mensual",
+    "id_original": "910399",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "INPCMS": {
+    "nombre": "Índice de precios al consumidor (INPC). Inflación mensual subyacente",
+    "frecuencia": "Mensual",
+    "id_original": "910400",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "CONCON": {
+    "nombre": "Indicador de confianza del consumidor",
+    "frecuencia": "Mensual",
+    "id_original": "454168",
+    "id_variacion": null,
+    "id_desestacionalizado": "454186"
+  },
+  "CONGOB": {
+    "nombre": "Gastos de consumo de gobierno general, total. A precios de 2018",
+    "frecuencia": "Anual",
+    "id_original": "728658",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "BALCOM": {
+    "nombre": "Saldo de la balanza comercial (Total)",
+    "frecuencia": "Mensual",
+    "id_original": "897",
+    "id_variacion": null,
+    "id_desestacionalizado": "87537"
+  },
+  "INDMANT": {
+    "nombre": "Total industrias manufactureras. Variación anual",
+    "frecuencia": "Mensual",
+    "id_original": "736537",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "ACTIND": {
+    "nombre": "Índice de volumen físico de la actividad Industrial (Total)",
+    "frecuencia": "Mensual",
+    "id_original": "736407",
+    "id_variacion": "736526",
+    "id_desestacionalizado": "736885"
+  },
+  "VENMEN": {
+    "nombre": "Índice de ventas netas en términos reales. Al por menor",
+    "frecuencia": "Mensual",
+    "id_original": "718506",
+    "id_variacion": "718507",
+    "id_desestacionalizado": "718942"
+  },
+  "IMMEX": {
+    "nombre": "IMMEX Personal Ocupado",
+    "frecuencia": "Mensual",
+    "id_original": "203933",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "IGAE": {
+    "nombre": "Indicador Global de la Actividad Económica (Total)",
+    "frecuencia": "Mensual",
+    "id_original": "737121",
+    "id_variacion": "737145",
+    "id_desestacionalizado": "737219"
+  },
+  "PIBVPC": {
+    "nombre": "Producto Interno Bruto, valores a precios corrientes, a precios de mercado",
+    "frecuencia": "Trimestral",
+    "id_original": "734407",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "PIBVA": {
+    "nombre": "Producto interno bruto, a precios de 2018. Variación anual (Trimestral)",
+    "frecuencia": "Trimestral",
+    "id_original": "735904",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "PIBPC_A": {
+    "nombre": "Producto interno bruto, a precios de mercado. A precios de 2018 (Anual)",
+    "frecuencia": "Anual",
+    "id_original": "782389",
+    "id_variacion": "735954",
+    "id_desestacionalizado": null
+  },
+  "PIBPC_T": {
+    "nombre": "Producto interno bruto, a precios de mercado. A precios de 2018 (Trimestral)",
+    "frecuencia": "Trimestral",
+    "id_original": "735879",
+    "id_variacion": "735904",
+    "id_desestacionalizado": "736181"
+  },
+  "PIBMC_T": {
+    "nombre": "Producto interno bruto, a precios de mercado. A precios corrientes (Trimestral)",
+    "frecuencia": "Trimestral",
+    "id_original": "735979",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "PIBPCEO": {
+    "nombre": "Estimación oportuna del PIB, a precios de 2018, desestacionalizado (Trimestral)",
+    "frecuencia": "Trimestral",
+    "id_original": "736183",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "PIB_D": {
+    "nombre": "Producto interno bruto trimestral, a precios de 2018. Serie desestacionalizada",
+    "frecuencia": "Trimestral",
+    "id_original": "736182",
+    "id_variacion": null,
+    "id_desestacionalizado": null
+  },
+  "INDMM": {
+    "nombre": "Producción minerometalúrgica",
+    "frecuencia": "Mensual",
+    "id_original": "656",
+    "id_variacion": "657",
+    "id_desestacionalizado": "661524"
+  },
+  "INDMMC": {
+    "nombre": "Producción minerometalúrgica Cobre",
+    "frecuencia": "Mensual",
+    "id_original": "666",
+    "id_variacion": "669",
+    "id_desestacionalizado": null
+  },
+  "INDMMO": {
+    "nombre": "Producción minerometalúrgica Oro",
+    "frecuencia": "Mensual",
+    "id_original": "659",
+    "id_variacion": "661",
+    "id_desestacionalizado": null
+  },
+  "INDMMP": {
+    "nombre": "Producción minerometalúrgica Plata",
+    "frecuencia": "Mensual",
+    "id_original": "660",
+    "id_variacion": "662",
+    "id_desestacionalizado": null
+  },
+  "DESUNI": {
+    "nombre": "Tasa de desocupación, serie unificada. Total (mensual)",
+    "frecuencia": "Mensual",
+    "id_original": "444883",
+    "id_variacion": null,
+    "id_desestacionalizado": "444884"
+  },
+  "ODGBS": {
+    "nombre": "Oferta y demanda global de bienes y servicios, base 2018",
+    "frecuencia": "Trimestral",
+    "id_original": "737371",
+    "id_variacion": "737374",
+    "id_desestacionalizado": "737445"
+  }
+}
