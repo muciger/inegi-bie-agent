@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard INEGI</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      color: #333;
+    }
+
+    header {
+      background: #c62828;
+      color: white;
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 { font-size: 1.4rem; font-weight: 600; }
+    header p  { font-size: 0.85rem; opacity: 0.85; margin-top: 4px; }
+
+    .btn {
+      background: white;
+      color: #c62828;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover  { opacity: 0.85; }
+    .btn:active { opacity: 0.7; }
+    .btn:disabled { opacity: 0.5; cursor: default; }
+
+    main { padding: 28px 32px; max-width: 1100px; margin: 0 auto; }
+
+    /* Tarjetas de resumen */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .card .label  { font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+    .card .value  { font-size: 2rem; font-weight: 700; margin: 8px 0 4px; color: #c62828; }
+    .card .period { font-size: 0.8rem; color: #aaa; }
+
+    /* Sección de gráficas */
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+      gap: 20px;
+    }
+
+    .chart-box {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .chart-box h2 { font-size: 1rem; font-weight: 600; margin-bottom: 16px; color: #555; }
+
+    /* Estado de carga */
+    .status {
+      text-align: center;
+      padding: 24px;
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    #mensaje-error {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Dashboard de Indicadores INEGI</h1>
+    <p>Datos económicos de México en tiempo real</p>
+  </div>
+  <button class="btn" id="btnActualizar" onclick="cargarDatos()">
+    &#8635; Actualizar datos
+  </button>
+</header>
+
+<main>
+  <div id="mensaje-error"></div>
+
+  <!-- Tarjetas -->
+  <div class="cards">
+    <div class="card">
+      <div class="label">Inflación anual (INPC)</div>
+      <div class="value" id="val-inpc">—</div>
+      <div class="period" id="per-inpc">cargando...</div>
+    </div>
+    <div class="card">
+      <div class="label">Trabajadores IMSS</div>
+      <div class="value" id="val-imss">—</div>
+      <div class="period" id="per-imss">cargando...</div>
+    </div>
+    <div class="card">
+      <div class="label">Tasa de desocupación</div>
+      <div class="value" id="val-deso">—</div>
+      <div class="period" id="per-deso">cargando...</div>
+    </div>
+  </div>
+
+  <!-- Gráficas -->
+  <div class="charts">
+    <div class="chart-box">
+      <h2>INPC — Índice Nacional de Precios al Consumidor (últimos 24 meses)</h2>
+      <div id="status-inpc" class="status">Cargando datos...</div>
+      <canvas id="grafica-inpc" style="display:none"></canvas>
+    </div>
+    <div class="chart-box">
+      <h2>Trabajadores asegurados en el IMSS (últimos 24 meses)</h2>
+      <div id="status-imss" class="status">Cargando datos...</div>
+      <canvas id="grafica-imss" style="display:none"></canvas>
+    </div>
+  </div>
+</main>
+
+<script>
+  // ─── Configuración ────────────────────────────────────────────────
+  const TOKEN = '15e366d0-6568-41be-9099-77c58c94a878';
+
+  // Series del BIE de INEGI
+  const SERIES = {
+    inpc:  '628194',   // INPC General (mensual)
+    imss:  '444612',   // Trabajadores asegurados en el IMSS (mensual)
+    deso:  '444663',   // Tasa de desocupación nacional (mensual)
+  };
+
+  // ─── Utilidades ───────────────────────────────────────────────────
+
+  // Construye la URL de la API del INEGI BIE
+  function urlINEGI(serie, inicio, fin) {
+    return `https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml/INDICATOR/${serie}/${inicio}/${fin}/0700/es/BIE/2.0/${TOKEN}?type=json`;
+  }
+
+  // Devuelve "YYYY-MM" de hace N meses
+  function mesAtras(n) {
+    const d = new Date();
+    d.setMonth(d.getMonth() - n);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,'0')}`;
+  }
+
+  function mostrarError(msg) {
+    const el = document.getElementById('mensaje-error');
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  // ─── Carga de datos ───────────────────────────────────────────────
+
+  async function fetchSerie(serie, inicio, fin) {
+    const url = urlINEGI(serie, inicio, fin);
+    const res  = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    // La respuesta viene en Series > OBSERVATIONS > OBS
+    const obs = json?.Series?.[0]?.OBSERVATIONS?.OBS ?? [];
+    return obs
+      .filter(o => o.OBS_VALUE !== null && o.OBS_VALUE !== '')
+      .map(o => ({ fecha: o.TIME_PERIOD, valor: parseFloat(o.OBS_VALUE) }))
+      .sort((a, b) => a.fecha.localeCompare(b.fecha));
+  }
+
+  function renderGrafica(id, labels, datos, color) {
+    const canvas = document.getElementById(id);
+    // Destruir gráfica anterior si existe
+    if (canvas._chart) canvas._chart.destroy();
+
+    canvas.style.display = 'block';
+    canvas._chart = new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          data: datos,
+          borderColor: color,
+          backgroundColor: color + '22',
+          borderWidth: 2,
+          pointRadius: 3,
+          fill: true,
+          tension: 0.3,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { maxTicksLimit: 8, font: { size: 11 } } },
+          y: { ticks: { font: { size: 11 } } },
+        }
+      }
+    });
+  }
+
+  // ─── Carga principal ──────────────────────────────────────────────
+
+  async function cargarDatos() {
+    const btn = document.getElementById('btnActualizar');
+    btn.disabled = true;
+    btn.textContent = 'Actualizando…';
+    document.getElementById('mensaje-error').style.display = 'none';
+
+    const inicio = mesAtras(25);
+    const fin    = mesAtras(0);
+
+    // ── INPC ──
+    try {
+      const datos = await fetchSerie(SERIES.inpc, inicio, fin);
+      if (datos.length) {
+        const ultimo = datos[datos.length - 1];
+        document.getElementById('val-inpc').textContent = ultimo.valor.toFixed(2);
+        document.getElementById('per-inpc').textContent = `Período: ${ultimo.fecha}`;
+        document.getElementById('status-inpc').style.display = 'none';
+        renderGrafica(
+          'grafica-inpc',
+          datos.map(d => d.fecha),
+          datos.map(d => d.valor),
+          '#c62828'
+        );
+      }
+    } catch (e) {
+      document.getElementById('status-inpc').textContent = 'Error al cargar INPC';
+      mostrarError('No se pudo cargar el INPC. Verifica tu conexión o el token.');
+      console.error('INPC:', e);
+    }
+
+    // ── IMSS ──
+    try {
+      const datos = await fetchSerie(SERIES.imss, inicio, fin);
+      if (datos.length) {
+        const ultimo = datos[datos.length - 1];
+        const millones = (ultimo.valor / 1_000_000).toFixed(2) + 'M';
+        document.getElementById('val-imss').textContent = millones;
+        document.getElementById('per-imss').textContent = `Período: ${ultimo.fecha}`;
+        document.getElementById('status-imss').style.display = 'none';
+        renderGrafica(
+          'grafica-imss',
+          datos.map(d => d.fecha),
+          datos.map(d => d.valor / 1_000_000),
+          '#1565c0'
+        );
+      }
+    } catch (e) {
+      document.getElementById('status-imss').textContent = 'Error al cargar datos IMSS';
+      console.error('IMSS:', e);
+    }
+
+    // ── Desocupación ──
+    try {
+      const datos = await fetchSerie(SERIES.deso, inicio, fin);
+      if (datos.length) {
+        const ultimo = datos[datos.length - 1];
+        document.getElementById('val-deso').textContent = ultimo.valor.toFixed(1) + '%';
+        document.getElementById('per-deso').textContent = `Período: ${ultimo.fecha}`;
+      }
+    } catch (e) {
+      document.getElementById('val-deso').textContent = 'N/D';
+      console.error('Desocupación:', e);
+    }
+
+    btn.disabled = false;
+    btn.textContent = '↻ Actualizar datos';
+  }
+
+  // Cargar al iniciar la página
+  cargarDatos();
+</script>
+
+</body>
+</html>
